@@ -43,7 +43,6 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     func test_getFromURL_performsGetRequestWithURL() {
-        
         let url = anyURL()
         
         let exp = expectation(description: "Wait for completion")
@@ -68,11 +67,6 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     func test_getFromURL_failsOnAllInvalidRepresentationCases() {
-        let nonHttpUrlResponse = URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
-        let anyHttpUrlResponse = HTTPURLResponse(url: anyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)
-        let anyData = Data("any-data".utf8)
-        let anyError = NSError(domain: "any-error", code: 0)
-        
         XCTAssertNotNil(resultErrorFor(data: nil, response: nil, error: nil))
         XCTAssertNotNil(resultErrorFor(data: nil, response: nonHttpUrlResponse, error: nil))
         XCTAssertNotNil(resultErrorFor(data: nil, response: anyHttpUrlResponse, error: nil))
@@ -104,7 +98,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         let exp = expectation(description: "Wait for completion")
         
         var receivedError: Error?
-        makeSUT().get(from: anyURL()) { result in
+        sut.get(from: anyURL()) { result in
             switch result {
             case .failure(let error):
                 receivedError = error
@@ -122,6 +116,22 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     private func anyURL() -> URL {
         return URL(string: "http://any-url.com")!
+    }
+    
+    private func anyData() -> Data {
+        return Data("any-data".utf8)
+    }
+    
+    private func anyNSError() -> NSError {
+        return NSError(domain: "any error", code: 0)
+    }
+    
+    private func anyHttpUrlResponse() -> HTTPURLResponse {
+        return HTTPURLResponse(url: anyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)!
+    }
+    
+    private func nonHttpUrlResponse() -> URLResponse {
+        return URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
     }
     
     class URLProtocolStub: URLProtocol {
