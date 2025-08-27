@@ -16,6 +16,7 @@
 		CEDD279C2E59E319001A7954 /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD279B2E59E314001A7954 /* FeedItemsMapper.swift */; };
 		CEDD279F2E5D8AB7001A7954 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD279E2E5D8AAE001A7954 /* URLSessionHTTPClientTests.swift */; };
 		CEDD27A22E5F185B001A7954 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD27A12E5F1845001A7954 /* XCTestCase+MemoryLeakTracking.swift */; };
+		CEDD27A42E5F8D9E001A7954 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD27A32E5F8D9D001A7954 /* URLSessionHTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		CEDD279B2E59E314001A7954 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
 		CEDD279E2E5D8AAE001A7954 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		CEDD27A12E5F1845001A7954 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
+		CEDD27A32E5F8D9D001A7954 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 		CE97D3F02E56E31E008BFF80 /* FeedAPI */ = {
 			isa = PBXGroup;
 			children = (
+				CEDD27A32E5F8D9D001A7954 /* URLSessionHTTPClient.swift */,
 				CEDD279B2E59E314001A7954 /* FeedItemsMapper.swift */,
 				CEDD27992E59E2D2001A7954 /* HTTPClient.swift */,
 				CE97D3F12E56E32B008BFF80 /* RemoteFeedLoader.swift */,
@@ -252,6 +255,7 @@
 				CE97D3F22E56E32B008BFF80 /* RemoteFeedLoader.swift in Sources */,
 				CEDD279A2E59E2D6001A7954 /* HTTPClient.swift in Sources */,
 				080EDF0C21B6DAE800813479 /* FeedItem.swift in Sources */,
+				CEDD27A42E5F8D9E001A7954 /* URLSessionHTTPClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
