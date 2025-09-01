@@ -10,9 +10,11 @@ import EssentialFeed
 
 class FeedStore {
     typealias DeletionCompletion = (Error?) -> Void
+    typealias InsertionCompletion = (Error?) -> Void
     var receivedMessages: [ReceivedMessage] = []
     private var deletionCompletions: [DeletionCompletion] = []
-    
+    private var insertionCompletions: [InsertionCompletion] = []
+
     enum ReceivedMessage: Equatable {
         case deleteCachedFeed
         case insert(items: [FeedItem], date: Date)
@@ -23,12 +25,17 @@ class FeedStore {
         receivedMessages.append(.deleteCachedFeed)
     }
     
-    func insert(items: [FeedItem], timestamp: Date) {
+    func insert(items: [FeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+        insertionCompletions.append(completion)
         receivedMessages.append(.insert(items: items, date: timestamp))
     }
     
     func completeDeletion(with error: Error, at index: Int = 0) {
         deletionCompletions[index](error)
+    }
+    
+    func completeInsertion(with error: Error, at index: Int = 0) {
+        insertionCompletions[index](error)
     }
     
     func completeDeletionSuccessfully(at index: Int = 0) {
@@ -47,10 +54,11 @@ class LocalFeedLoader {
     
     func save(items: [FeedItem], completion: @escaping(Error?) -> Void) {
         self.store.deleteCache { [unowned self] error in
-            completion(error)
             if error == nil {
-                self.store.insert(items: items, timestamp: currentDate())
-            } 
+                self.store.insert(items: items, timestamp: currentDate(), completion: completion)
+            } else {
+                completion(error)
+            }
         }
     }
 }
@@ -95,9 +103,9 @@ class CacheFeedUseCaseTests: XCTestCase {
     
     func test_save_failsOnDeletionError() {
         let time = Date()
-        let (sut, store) = makeSUT(currentDate: { time })
-        
         let items = [uniqueItem(), uniqueItem()]
+        let deletionError = anyNSError()
+        let (sut, store) = makeSUT(currentDate: { time })
         
         var capturedError: Error?
         let exp = expectation(description: "Wait for completion")
@@ -106,12 +114,32 @@ class CacheFeedUseCaseTests: XCTestCase {
             exp.fulfill()
         }
         
-        let deletionError = anyNSError()
         store.completeDeletion(with: deletionError)
         
         wait(for: [exp], timeout: 1.0)
         
         XCTAssertEqual(capturedError as? NSError, deletionError)
+    }
+    
+    func test_save_failsOnInsertionError() {
+        let time = Date()
+        let insertionError = anyNSError()
+        let items = [uniqueItem(), uniqueItem()]
+        let (sut, store) = makeSUT(currentDate: { time })
+        
+        var capturedError: Error?
+        let exp = expectation(description: "Wait for completion")
+        sut.save(items: items) { error in
+            capturedError = error
+            exp.fulfill()
+        }
+        
+        store.completeDeletionSuccessfully()
+        store.completeInsertion(with: insertionError)
+        
+        wait(for: [exp], timeout: 1.0)
+        
+        XCTAssertEqual(capturedError as? NSError, insertionError)
     }
     
     // MARK: Helpers
