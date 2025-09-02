@@ -23,6 +23,7 @@
 		CEDD27FF2E659B91001A7954 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD27FE2E659B90001A7954 /* LocalFeedLoader.swift */; };
 		CEDD28012E659C02001A7954 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD28002E659C01001A7954 /* FeedStore.swift */; };
 		CEDD28072E66C50C001A7954 /* RemoteFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD28062E66C4FC001A7954 /* RemoteFeedItem.swift */; };
+		CEDD28092E66C54E001A7954 /* LocalFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD28082E66C54D001A7954 /* LocalFeedItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		CEDD27FE2E659B90001A7954 /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
 		CEDD28002E659C01001A7954 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
 		CEDD28062E66C4FC001A7954 /* RemoteFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedItem.swift; sourceTree = "<group>"; };
+		CEDD28082E66C54D001A7954 /* LocalFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -185,6 +187,7 @@
 		CEDD27FD2E659B89001A7954 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				CEDD28082E66C54D001A7954 /* LocalFeedItem.swift */,
 				CEDD28002E659C01001A7954 /* FeedStore.swift */,
 				CEDD27FE2E659B90001A7954 /* LocalFeedLoader.swift */,
 			);
@@ -340,6 +343,7 @@
 				080EDF0E21B6DCB600813479 /* FeedLoader.swift in Sources */,
 				CEDD28072E66C50C001A7954 /* RemoteFeedItem.swift in Sources */,
 				CE97D3F22E56E32B008BFF80 /* RemoteFeedLoader.swift in Sources */,
+				CEDD28092E66C54E001A7954 /* LocalFeedItem.swift in Sources */,
 				CEDD28012E659C02001A7954 /* FeedStore.swift in Sources */,
 				CEDD27FF2E659B91001A7954 /* LocalFeedLoader.swift in Sources */,
 				CEDD279A2E59E2D6001A7954 /* HTTPClient.swift in Sources */,
