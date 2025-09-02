@@ -1,11 +1,11 @@
 //
-//  Copyright © Essential Developer. All rights reserved.
+//  Created by Dilshod Zopirov on 9/2/25.
 //
 
 import Foundation
 
-public struct FeedImage: Equatable {
-	public let id: UUID
+public struct LocalFeedImage: Equatable {
+    public let id: UUID
     public let description: String?
     public let location: String?
     public let url: URL
