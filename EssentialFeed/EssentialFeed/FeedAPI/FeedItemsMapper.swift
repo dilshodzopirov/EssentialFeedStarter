@@ -1,7 +1,4 @@
 //
-//  FeedItemsMapper.swift
-//  EssentialFeed
-//
 //  Created by Dilshod Zopirov on 8/23/25.
 //
 
