@@ -185,8 +185,8 @@
 		CEDD27FA2E655D20001A7954 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				CEDD28252E6ABB3D001A7954 /* Helpers */,
 				CEDD28212E6AAC44001A7954 /* ValidateFeedCacheUseCaseTests.swift */,
-				CEDD280E2E66FA11001A7954 /* FeedStoreSpy.swift */,
 				CEDD280C2E66F993001A7954 /* LoadFeedFromCacheUseCaseTests.swift */,
 				CEDD27FB2E655D27001A7954 /* CacheFeedUseCaseTests.swift */,
 			);
@@ -201,6 +201,14 @@
 				CEDD27FE2E659B90001A7954 /* LocalFeedLoader.swift */,
 			);
 			path = "Feed Cache";
+			sourceTree = "<group>";
+		};
+		CEDD28252E6ABB3D001A7954 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CEDD280E2E66FA11001A7954 /* FeedStoreSpy.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
