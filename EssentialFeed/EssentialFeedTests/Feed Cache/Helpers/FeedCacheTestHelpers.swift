@@ -21,14 +21,6 @@ func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
     return (models, local)
 }
 
-func anyURL() -> URL {
-    return URL(string: "http://any-url.com")!
-}
-
-func anyNSError() -> NSError {
-    return NSError(domain: "any error", code: 0)
-}
-
 extension Date {
     func adding(days: Int) -> Date {
         return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
