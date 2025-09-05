@@ -15,6 +15,16 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [])
     }
     
+    func test_validate_deletesCacheOnRetrievalError() {
+        let (sut, store) = makeSUT()
+        
+        sut.validate()
+        
+        store.completeRetrieval(with: anyNSError())
+        
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
+    }
+    
     func test_validate_doesNotDeleteCacheOnEmptyCache() {
         let (sut, store) = makeSUT()
         
@@ -31,11 +41,37 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         let feed = uniqueImageFeed()
         let lessThanSevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7).adding(seconds: 1)
         
-        sut.load { _ in }
+        sut.validate()
         
         store.completeRetrieval(with: feed.local, timestamp: lessThanSevenDaysOldTimestamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
+    func test_validate_deletesCacheOnSevenDaysOldCache() {
+        let fixedCurrentDate = Date()
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        let feed = uniqueImageFeed()
+        let sevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7)
+        
+        sut.validate()
+        
+        store.completeRetrieval(with: feed.local, timestamp: sevenDaysOldTimestamp)
+        
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
+    }
+    
+    func test_validate_deletesCacheOnMoreThanSevenDaysOldCache() {
+        let fixedCurrentDate = Date()
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        let feed = uniqueImageFeed()
+        let moreThanSevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7).adding(seconds: -1)
+        
+        sut.validate()
+        
+        store.completeRetrieval(with: feed.local, timestamp: moreThanSevenDaysOldTimestamp)
+        
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
     }
     
     // MARK: Helpers
@@ -65,6 +101,10 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
     
     private func anyURL() -> URL {
         return URL(string: "http://any-url.com")!
+    }
+    
+    private func anyNSError() -> NSError {
+        return NSError(domain: "any error", code: 0)
     }
     
 }
