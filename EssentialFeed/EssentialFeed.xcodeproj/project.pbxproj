@@ -30,6 +30,7 @@
 		CEDD28272E6ABB98001A7954 /* FeedCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD28262E6ABB8D001A7954 /* FeedCacheTestHelpers.swift */; };
 		CEDD28292E6ABC78001A7954 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD28282E6ABC72001A7954 /* SharedTestHelpers.swift */; };
 		CEDD282A2E6ABC78001A7954 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD28282E6ABC72001A7954 /* SharedTestHelpers.swift */; };
+		CEDD282C2E6AF882001A7954 /* FeedCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD282B2E6AF881001A7954 /* FeedCachePolicy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		CEDD28212E6AAC44001A7954 /* ValidateFeedCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateFeedCacheUseCaseTests.swift; sourceTree = "<group>"; };
 		CEDD28262E6ABB8D001A7954 /* FeedCacheTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCacheTestHelpers.swift; sourceTree = "<group>"; };
 		CEDD28282E6ABC72001A7954 /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
+		CEDD282B2E6AF881001A7954 /* FeedCachePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCachePolicy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -202,6 +204,7 @@
 		CEDD27FD2E659B89001A7954 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				CEDD282B2E6AF881001A7954 /* FeedCachePolicy.swift */,
 				CEDD28082E66C54D001A7954 /* LocalFeedImage.swift */,
 				CEDD28002E659C01001A7954 /* FeedStore.swift */,
 				CEDD27FE2E659B90001A7954 /* LocalFeedLoader.swift */,
@@ -366,6 +369,7 @@
 				CEDD279C2E59E319001A7954 /* FeedItemsMapper.swift in Sources */,
 				080EDF0E21B6DCB600813479 /* FeedLoader.swift in Sources */,
 				CEDD28072E66C50C001A7954 /* RemoteFeedItem.swift in Sources */,
+				CEDD282C2E6AF882001A7954 /* FeedCachePolicy.swift in Sources */,
 				CE97D3F22E56E32B008BFF80 /* RemoteFeedLoader.swift in Sources */,
 				CEDD28092E66C54E001A7954 /* LocalFeedImage.swift in Sources */,
 				CEDD28012E659C02001A7954 /* FeedStore.swift in Sources */,
