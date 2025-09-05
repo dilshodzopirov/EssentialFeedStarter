@@ -52,7 +52,7 @@ public final class LocalFeedLoader {
             
             switch result {
             case .failure:
-                self.store.deleteCache(completion: { _ in })
+                self.store.deleteCache { _ in }
             case let .found(_, timestamp) where !validate(timestamp):
                 self.store.deleteCache { _ in }
             case .empty, .found: break
