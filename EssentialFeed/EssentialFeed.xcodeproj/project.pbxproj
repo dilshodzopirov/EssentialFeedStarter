@@ -26,6 +26,7 @@
 		CEDD28092E66C54E001A7954 /* LocalFeedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD28082E66C54D001A7954 /* LocalFeedImage.swift */; };
 		CEDD280D2E66F99D001A7954 /* LoadFeedFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD280C2E66F993001A7954 /* LoadFeedFromCacheUseCaseTests.swift */; };
 		CEDD280F2E66FA16001A7954 /* FeedStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD280E2E66FA11001A7954 /* FeedStoreSpy.swift */; };
+		CEDD28222E6AAC51001A7954 /* ValidateFeedCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD28212E6AAC44001A7954 /* ValidateFeedCacheUseCaseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		CEDD28082E66C54D001A7954 /* LocalFeedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImage.swift; sourceTree = "<group>"; };
 		CEDD280C2E66F993001A7954 /* LoadFeedFromCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedFromCacheUseCaseTests.swift; sourceTree = "<group>"; };
 		CEDD280E2E66FA11001A7954 /* FeedStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpy.swift; sourceTree = "<group>"; };
+		CEDD28212E6AAC44001A7954 /* ValidateFeedCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateFeedCacheUseCaseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -183,6 +185,7 @@
 		CEDD27FA2E655D20001A7954 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				CEDD28212E6AAC44001A7954 /* ValidateFeedCacheUseCaseTests.swift */,
 				CEDD280E2E66FA11001A7954 /* FeedStoreSpy.swift */,
 				CEDD280C2E66F993001A7954 /* LoadFeedFromCacheUseCaseTests.swift */,
 				CEDD27FB2E655D27001A7954 /* CacheFeedUseCaseTests.swift */,
@@ -362,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEDD28222E6AAC51001A7954 /* ValidateFeedCacheUseCaseTests.swift in Sources */,
 				CEC247942E55FFFE00B8EF27 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
 				CEDD279F2E5D8AB7001A7954 /* URLSessionHTTPClientTests.swift in Sources */,
 				CEDD280F2E66FA16001A7954 /* FeedStoreSpy.swift in Sources */,
