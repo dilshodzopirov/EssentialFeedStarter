@@ -1,0 +1,54 @@
+//
+//  CodableFeedStoreTests.swift
+//  EssentialFeed
+//
+//  Created by Dilshod Zopirov on 9/7/25.
+//
+
+import Foundation
+import XCTest
+import EssentialFeed
+
+class CodableFeedStore {
+    func retrieve(completion: @escaping FeedStore.RetrievalCompletion) {
+        completion(.empty)
+    }
+}
+
+class CodableFeedStoreTests: XCTestCase {
+    
+    func test_retrieve_deliversEmptyOnEmptyCache() {
+        let sut = CodableFeedStore()
+        let exp = expectation(description: "Wait for retrieve completion")
+        
+        sut.retrieve { result in
+            switch result {
+            case .empty: break
+            default:
+                XCTFail("Expected empty, got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
+    }
+    
+    func test_retrieve_deliversEmptyOnTwiceEmptyCache() {
+        let sut = CodableFeedStore()
+        let exp = expectation(description: "Wait for retrieve completion")
+        
+        sut.retrieve { result in
+            sut.retrieve { result in
+                switch result {
+                case .empty: break
+                default:
+                    XCTFail("Expected empty, got \(result) instead")
+                }
+                exp.fulfill()
+            }
+        }
+        
+        wait(for: [exp], timeout: 1.0)
+    }
+    
+}
