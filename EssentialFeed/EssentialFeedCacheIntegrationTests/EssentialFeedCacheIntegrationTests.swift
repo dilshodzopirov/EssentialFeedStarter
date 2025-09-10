@@ -47,11 +47,14 @@ final class EssentialFeedCacheIntegrationTests: XCTestCase {
     }
     
     func test_save_overridesPreviousSavedItemsOnASeparateInstance() {
-        let firstSUT = makeSUT()
-        let latestSUT = makeSUT()
-        
+        let firstSavingSUT = makeSUT()
+        let latestSavingSUT = makeSUT()
+        let loadingSUT = makeSUT()
+        let firstFeed = uniqueImageFeed().models
+        let latestFeed = uniqueImageFeed().models
+
         let firstExp = expectation(description: "Wait for first save completion")
-        firstSUT.save(feed: uniqueImageFeed().models) { error in
+        firstSavingSUT.save(feed: firstFeed) { error in
             if error != nil {
                 XCTFail("Expected to save feed successfully")
             }
@@ -60,9 +63,8 @@ final class EssentialFeedCacheIntegrationTests: XCTestCase {
         
         wait(for: [firstExp], timeout: 1.0)
         
-        let latestFeed = uniqueImageFeed().models
         let latestExp = expectation(description: "Wait for latest save completion")
-        latestSUT.save(feed: latestFeed) { error in
+        latestSavingSUT.save(feed: latestFeed) { error in
             if error != nil {
                 XCTFail("Expected to save feed successfully")
             }
@@ -70,6 +72,8 @@ final class EssentialFeedCacheIntegrationTests: XCTestCase {
         }
         
         wait(for: [latestExp], timeout: 1.0)
+        
+        expect(loadingSUT, toLoad: latestFeed)
     }
 
     // MARK: Helpers
