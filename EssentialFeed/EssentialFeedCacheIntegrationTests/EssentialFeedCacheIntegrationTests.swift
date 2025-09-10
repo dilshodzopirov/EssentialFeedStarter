@@ -33,15 +33,7 @@ final class EssentialFeedCacheIntegrationTests: XCTestCase {
         let loadingSUT = makeSUT()
         let feed = uniqueImageFeed().models
         
-        let savingExp = expectation(description: "Wait for save completion")
-        savingSUT.save(feed: feed) { error in
-            if error != nil {
-                XCTFail("Expected to save feed successfully")
-            }
-            savingExp.fulfill()
-        }
-        
-        wait(for: [savingExp], timeout: 1.0)
+        save(feed, to: savingSUT)
         
         expect(loadingSUT, toLoad: feed)
     }
@@ -53,25 +45,9 @@ final class EssentialFeedCacheIntegrationTests: XCTestCase {
         let firstFeed = uniqueImageFeed().models
         let latestFeed = uniqueImageFeed().models
 
-        let firstExp = expectation(description: "Wait for first save completion")
-        firstSavingSUT.save(feed: firstFeed) { error in
-            if error != nil {
-                XCTFail("Expected to save feed successfully")
-            }
-            firstExp.fulfill()
-        }
+        save(firstFeed, to: firstSavingSUT)
         
-        wait(for: [firstExp], timeout: 1.0)
-        
-        let latestExp = expectation(description: "Wait for latest save completion")
-        latestSavingSUT.save(feed: latestFeed) { error in
-            if error != nil {
-                XCTFail("Expected to save feed successfully")
-            }
-            latestExp.fulfill()
-        }
-        
-        wait(for: [latestExp], timeout: 1.0)
+        save(latestFeed, to: latestSavingSUT)
         
         expect(loadingSUT, toLoad: latestFeed)
     }
@@ -100,6 +76,17 @@ final class EssentialFeedCacheIntegrationTests: XCTestCase {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    private func save(_ feed: [FeedImage], to sut: LocalFeedLoader, file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "Wait for save completion")
+        sut.save(feed: feed) { error in
+            XCTAssertNil(error, "Expected to save feed successfully", file: file, line: line)
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
+        
     }
     
     private func testSpecificURL() -> URL {
