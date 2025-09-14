@@ -9,14 +9,29 @@
     }
   ],
   "defaultOptions" : {
-    "threadSanitizerEnabled" : true
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:EssentialFeed.xcodeproj",
+          "identifier" : "CEE4415D2E76AB980076B875",
+          "name" : "EssentialFeediOS"
+        }
+      ]
+    }
   },
   "testTargets" : [
     {
       "target" : {
         "containerPath" : "container:EssentialFeed.xcodeproj",
-        "identifier" : "CE28E3AD2E70916700F20A27",
-        "name" : "EssentialFeedCacheIntegrationTests"
+        "identifier" : "080EDEF921B6DA7E00813479",
+        "name" : "EssentialFeedTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:EssentialFeed.xcodeproj",
+        "identifier" : "CEE441652E76AB980076B875",
+        "name" : "EssentialFeediOSTests"
       }
     },
     {
@@ -29,8 +44,8 @@
     {
       "target" : {
         "containerPath" : "container:EssentialFeed.xcodeproj",
-        "identifier" : "080EDEF921B6DA7E00813479",
-        "name" : "EssentialFeedTests"
+        "identifier" : "CE28E3AD2E70916700F20A27",
+        "name" : "EssentialFeedCacheIntegrationTests"
       }
     }
   ],
