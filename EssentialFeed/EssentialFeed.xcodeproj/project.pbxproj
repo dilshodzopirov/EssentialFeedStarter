@@ -47,9 +47,9 @@
 		CEDD282A2E6ABC78001A7954 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD28282E6ABC72001A7954 /* SharedTestHelpers.swift */; };
 		CEDD282C2E6AF882001A7954 /* FeedCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD282B2E6AF881001A7954 /* FeedCachePolicy.swift */; };
 		CEE441672E76AB980076B875 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE4415E2E76AB980076B875 /* EssentialFeediOS.framework */; };
-		CEE441792E76EFEE0076B875 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; platformFilter = ios; };
-		CEE4417A2E76EFEE0076B875 /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CEE4417E2E76F1E90076B875 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD27A12E5F1845001A7954 /* XCTestCase+MemoryLeakTracking.swift */; };
+		CEE441AE2E79E3D80076B875 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; platformFilter = ios; };
+		CEE441AF2E79E3D80076B875 /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,13 +91,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CEE4417D2E76EFEE0076B875 /* Embed Frameworks */ = {
+		CEE441B02E79E3D80076B875 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CEE4417A2E76EFEE0076B875 /* EssentialFeed.framework in Embed Frameworks */,
+				CEE441AF2E79E3D80076B875 /* EssentialFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,7 +189,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEE441792E76EFEE0076B875 /* EssentialFeed.framework in Frameworks */,
+				CEE441AE2E79E3D80076B875 /* EssentialFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,7 +467,7 @@
 				CEE4415A2E76AB980076B875 /* Sources */,
 				CEE4415B2E76AB980076B875 /* Frameworks */,
 				CEE4415C2E76AB980076B875 /* Resources */,
-				CEE4417D2E76EFEE0076B875 /* Embed Frameworks */,
+				CEE441B02E79E3D80076B875 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
