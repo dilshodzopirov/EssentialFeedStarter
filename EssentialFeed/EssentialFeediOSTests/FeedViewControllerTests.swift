@@ -53,7 +53,7 @@ class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 1)
     }
     
-    func test_pullToRefresh_loadsFeed() {
+    func test_userInitiatedFeedReload_reloadsFeed() {
         let (sut, loader) = makeSUT()
         sut.simulateAppearance()
         
@@ -120,11 +120,11 @@ private extension FeedViewController {
     func replaceRefreshControlWithFakeForiOS17Support() {
         let fake = FakeRefreshControl()
         
-        refreshControl?.allTargets.forEach { target in
-            refreshControl?.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { action in
-                fake.addTarget(self, action: Selector(action), for: .valueChanged)
-            }
-        }
+//        refreshControl?.allTargets.forEach { target in
+//            refreshControl?.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { action in
+//                fake.addTarget(self, action: Selector(action), for: .valueChanged)
+//            }
+//        }
         refreshControl = fake
     }
     
