@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "312699D9-F62F-452E-A30B-BE799EBABDE4",
+      "id" : "66C9ED59-B4E8-4AEE-A2C7-52BD5CE28E49",
       "name" : "Configuration 1",
       "options" : {
 
@@ -9,32 +9,11 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : {
-      "targets" : [
-        {
-          "containerPath" : "container:EssentialFeed.xcodeproj",
-          "identifier" : "CEE4415D2E76AB980076B875",
-          "name" : "EssentialFeediOS"
-        }
-      ]
-    }
+
   },
   "testTargets" : [
     {
-      "target" : {
-        "containerPath" : "container:EssentialFeed.xcodeproj",
-        "identifier" : "080EDEF921B6DA7E00813479",
-        "name" : "EssentialFeedTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:EssentialFeed.xcodeproj",
-        "identifier" : "CEE441652E76AB980076B875",
-        "name" : "EssentialFeediOSTests"
-      }
-    },
-    {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:EssentialFeed.xcodeproj",
         "identifier" : "CEDD27D62E621178001A7954",
@@ -42,6 +21,23 @@
       }
     },
     {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:EssentialFeed.xcodeproj",
+        "identifier" : "080EDEF921B6DA7E00813479",
+        "name" : "EssentialFeedTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:EssentialFeed.xcodeproj",
+        "identifier" : "CEE441652E76AB980076B875",
+        "name" : "EssentialFeediOSTests"
+      }
+    },
+    {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:EssentialFeed.xcodeproj",
         "identifier" : "CE28E3AD2E70916700F20A27",
