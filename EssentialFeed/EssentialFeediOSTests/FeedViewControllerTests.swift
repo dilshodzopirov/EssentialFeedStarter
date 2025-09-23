@@ -69,7 +69,6 @@ class FeedViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [image0])
         
         sut.simulateUserInitiatedFeedReload()
-        let error = NSError(domain: "any error", code: 0)
         loader.completeFeedLoadingWithError(at: 1)
         assertThat(sut, isRendering: [image0])
     }
