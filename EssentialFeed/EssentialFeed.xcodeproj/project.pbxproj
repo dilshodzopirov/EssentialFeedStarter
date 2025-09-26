@@ -51,6 +51,8 @@
 		CE97D3F22E56E32B008BFF80 /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE97D3F12E56E32B008BFF80 /* RemoteFeedLoader.swift */; };
 		CEB15DBE2E84569B008EECFA /* FeedImageCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB15DBD2E84569A008EECFA /* FeedImageCellController.swift */; };
 		CEB15DC12E866100008EECFA /* FeedUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB15DC02E8660FF008EECFA /* FeedUIComposer.swift */; };
+		CEB15DC42E86B914008EECFA /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB15DC32E86B914008EECFA /* FeedViewModel.swift */; };
+		CEB15DC62E86D987008EECFA /* FeedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB15DC52E86D986008EECFA /* FeedImageViewModel.swift */; };
 		CEC247942E55FFFE00B8EF27 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC247932E55FFFE00B8EF27 /* LoadFeedFromRemoteUseCaseTests.swift */; };
 		CEDD279A2E59E2D6001A7954 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD27992E59E2D2001A7954 /* HTTPClient.swift */; };
 		CEDD279C2E59E319001A7954 /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDD279B2E59E314001A7954 /* FeedItemsMapper.swift */; };
@@ -164,6 +166,8 @@
 		CE97D3F12E56E32B008BFF80 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		CEB15DBD2E84569A008EECFA /* FeedImageCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCellController.swift; sourceTree = "<group>"; };
 		CEB15DC02E8660FF008EECFA /* FeedUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUIComposer.swift; sourceTree = "<group>"; };
+		CEB15DC32E86B914008EECFA /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		CEB15DC52E86D986008EECFA /* FeedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewModel.swift; sourceTree = "<group>"; };
 		CEC247932E55FFFE00B8EF27 /* LoadFeedFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
 		CEDD27992E59E2D2001A7954 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		CEDD279B2E59E314001A7954 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
@@ -358,6 +362,7 @@
 		CE648C262E83FD050007B844 /* Feed UI */ = {
 			isa = PBXGroup;
 			children = (
+				CEB15DC22E86B90F008EECFA /* Models */,
 				CEB15DBF2E8660F7008EECFA /* Composers */,
 				CE648C272E83FD0F0007B844 /* Controllers */,
 				CE648C282E83FD140007B844 /* Views */,
@@ -446,6 +451,15 @@
 				CEB15DC02E8660FF008EECFA /* FeedUIComposer.swift */,
 			);
 			path = Composers;
+			sourceTree = "<group>";
+		};
+		CEB15DC22E86B90F008EECFA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CEB15DC52E86D986008EECFA /* FeedImageViewModel.swift */,
+				CEB15DC32E86B914008EECFA /* FeedViewModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		CEDD279D2E59F349001A7954 /* Feed API */ = {
@@ -827,7 +841,9 @@
 				CE648C0F2E83FC9B0007B844 /* FeedImageCell.swift in Sources */,
 				CE648C102E83FC9B0007B844 /* FeedViewController.swift in Sources */,
 				CE648C112E83FC9B0007B844 /* UIView+Shimmering.swift in Sources */,
+				CEB15DC62E86D987008EECFA /* FeedImageViewModel.swift in Sources */,
 				CEB15DBE2E84569B008EECFA /* FeedImageCellController.swift in Sources */,
+				CEB15DC42E86B914008EECFA /* FeedViewModel.swift in Sources */,
 				CEB15DC12E866100008EECFA /* FeedUIComposer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
