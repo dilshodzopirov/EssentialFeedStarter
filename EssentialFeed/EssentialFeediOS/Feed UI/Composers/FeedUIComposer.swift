@@ -53,14 +53,17 @@ final class FeedViewAdapter: FeedView {
     
     func display(_ viewModel: FeedViewModel) {
         controller?.tableModel = viewModel.feed.map {
-            let presenter = FeedImagePresenter<FeedImageCellController, UIImage>(
+            let presentationAdapter = FeedImageDataLoaderPresentationAdapter<WeakRefVirtualProxy<FeedImageCellController>, UIImage>(
+                url: $0.url,
+                imageLoader: imageLoader
+            )
+            let view = FeedImageCellController(delegate: presentationAdapter)
+            presentationAdapter.presenter = FeedImagePresenter<WeakRefVirtualProxy<FeedImageCellController>, UIImage>(
+                view: WeakRefVirtualProxy(view),
                 model: $0,
-                imageLoader: imageLoader,
                 imageTransformer: UIImage.init
             )
-            let cellController = FeedImageCellController(presenter: presenter)
-            presenter.view = cellController
-            return cellController
+            return view
         }
     }
 }
@@ -76,5 +79,39 @@ private final class WeakRefVirtualProxy<T: AnyObject> {
 extension WeakRefVirtualProxy: FeedLoadingView where T: FeedLoadingView {
     func display(_ viewModel: FeedLoadingViewModel) {
         object?.display(viewModel)
+    }
+}
+
+extension WeakRefVirtualProxy: FeedImageView where T: FeedImageView, T.Image == UIImage {
+    func display(_ model: FeedImageViewModel<UIImage>) {
+        object?.display(model)
+    }
+}
+
+private final class FeedImageDataLoaderPresentationAdapter<View: FeedImageView, Image>: FeedImageCellControllerDelegate where View.Image == Image {
+    private var task: FeedImageDataLoaderTask?
+    private let url: URL
+    private let imageLoader: FeedImageDataLoader
+    var presenter: FeedImagePresenter<View, Image>?
+    
+    init(url: URL, imageLoader: FeedImageDataLoader) {
+        self.url = url
+        self.imageLoader = imageLoader
+    }
+    
+    func loadImageData() {
+        presenter?.didStartLoadingImageData()
+        task = imageLoader.loadImageData(from: url) { [weak self] result in
+            switch result {
+            case let .success(imageData):
+                self?.presenter?.didFinishLoadingImageData(with: imageData)
+            case let .failure(error):
+                self?.presenter?.didFinishLoadingImageData(with: error)
+            }
+        }
+    }
+    
+    func cancelImageDataLoad() {
+        task?.cancel()
     }
 }
