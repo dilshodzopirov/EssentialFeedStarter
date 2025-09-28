@@ -5,7 +5,7 @@
 import Foundation
 import EssentialFeed
 
-struct FeedImagePresenterData<Image> {
+struct FeedImageViewModel<Image> {
     let hasLocation: Bool
     let location: String?
     let description: String?
@@ -17,7 +17,7 @@ struct FeedImagePresenterData<Image> {
 protocol FeedImageView: AnyObject {
     associatedtype Image
     
-    func display(_ viewModel: FeedImagePresenterData<Image>)
+    func display(_ viewModel: FeedImageViewModel<Image>)
 }
 
 final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == Image {
@@ -47,7 +47,7 @@ final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == I
     
     func loadImageData() {
         view?.display(
-            FeedImagePresenterData(
+            FeedImageViewModel(
                 hasLocation: model.location != nil,
                 location: model.location,
                 description: model.description,
@@ -64,7 +64,7 @@ final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == I
     private func handle(_ result: FeedImageDataLoader.Result) {
         if let image = (try? result.get()).flatMap(imageTransformer) {
             view?.display(
-                FeedImagePresenterData(
+                FeedImageViewModel(
                     hasLocation: model.location != nil,
                     location: model.location,
                     description: model.description,
@@ -75,7 +75,7 @@ final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == I
             )
         } else {
             view?.display(
-                FeedImagePresenterData(
+                FeedImageViewModel(
                     hasLocation: model.location != nil,
                     location: model.location,
                     description: model.description,
