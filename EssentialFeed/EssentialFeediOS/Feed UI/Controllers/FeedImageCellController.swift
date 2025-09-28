@@ -4,49 +4,40 @@
 
 import UIKit
 
-final class FeedImageCellController {
-    private let viewModel: FeedImageViewModel<UIImage>
+final class FeedImageCellController: FeedImageView {
+    typealias Image = UIImage
+    private lazy var cell = FeedImageCell()
+    private let presenter: FeedImagePresenter<FeedImageCellController, UIImage>
     
-    init(viewModel: FeedImageViewModel<UIImage>) {
-        self.viewModel = viewModel
+    init(presenter: FeedImagePresenter<FeedImageCellController, UIImage>) {
+        self.presenter = presenter
     }
     
     public func view() -> UITableViewCell {
-        let cell = binded(FeedImageCell())
-        viewModel.loadImageData()
+        presenter.loadImageData()
         return cell
     }
     
     func preload() {
-        viewModel.loadImageData()
+        presenter.loadImageData()
     }
     
     func cancelLoad() {
-        viewModel.cancelImageDataLoad()
+        presenter.cancelImageDataLoad()
     }
     
-    private func binded(_ cell: FeedImageCell) -> FeedImageCell {
+    func display(_ viewModel: FeedImagePresenterData<Image>) {
         cell.locationContainer.isHidden = !viewModel.hasLocation
         cell.locationLabel.text = viewModel.location
         cell.descriptionLabel.text = viewModel.description
-        cell.onRetry = viewModel.loadImageData
+        cell.onRetry = presenter.loadImageData
         
-        viewModel.onImageLoad = { [weak cell] image in
-            cell?.feedImageView.image = image
+        cell.feedImageView.image = viewModel.image
+        if viewModel.isLoading {
+            cell.feedImageContainer.startShimmering()
+        } else {
+            cell.feedImageContainer.stopShimmering()
         }
-        
-        viewModel.onImageLoadingStateChange = { [weak cell] isLoading in
-            if isLoading {
-                cell?.feedImageContainer.startShimmering()
-            } else {
-                cell?.feedImageContainer.stopShimmering()
-            }
-        }
-        
-        viewModel.onShouldRetryImageLoadStateChange = { [weak cell] shouldRetry in
-            cell?.feedImageRetryButton.isHidden = !shouldRetry
-        }
-        
-        return cell
+        cell.feedImageRetryButton.isHidden = !viewModel.shouldRetry
     }
 }
