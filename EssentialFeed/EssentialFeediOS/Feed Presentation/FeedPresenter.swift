@@ -2,6 +2,7 @@
 //  Created by Dilshod Zopirov on 9/28/25.
 //
 
+import Foundation
 import EssentialFeed
 
 protocol FeedLoadingView {
@@ -22,7 +23,12 @@ final class FeedPresenter {
     }
 
     static var title: String {
-        return "My Feed"
+        return NSLocalizedString(
+            "FEED_VIEW_TITLE",
+            tableName: "Feed",
+            bundle: Bundle(for: FeedPresenter.self),
+            comment: ""
+        )
     }
     
     func didStartLoadingFeed() {
