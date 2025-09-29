@@ -29,6 +29,7 @@ final class FeedImageCellController: FeedImageView {
     }
     
     func cancelLoad() {
+        releaseCellForReuse()
         delegate.cancelImageDataLoad()
     }
     
@@ -45,5 +46,9 @@ final class FeedImageCellController: FeedImageView {
             cell?.feedImageContainer.stopShimmering()
         }
         cell?.feedImageRetryButton.isHidden = !viewModel.shouldRetry
+    }
+    
+    private func releaseCellForReuse() {
+        cell = nil
     }
 }
