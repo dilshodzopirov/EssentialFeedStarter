@@ -4,15 +4,19 @@
 
 import UIKit
 
-public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private let refreshController: FeedRefreshViewController
+protocol FeedViewControllerDelegate {
+    func didRequestFeedRefresh()
+}
+
+public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView {
+    private let delegate: FeedViewControllerDelegate
     private var isViewAlreadyLoaded = false
     var tableModel: [FeedImageCellController] = [] {
         didSet { tableView.reloadData() }
     }
     
-    init(refreshController: FeedRefreshViewController) {
-        self.refreshController = refreshController
+    init(delegate: FeedViewControllerDelegate) {
+        self.delegate = delegate
         super.init(style: .plain)
     }
     
@@ -23,7 +27,8 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshControl = refreshController.view
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.prefetchDataSource = self
     }
     
@@ -32,7 +37,19 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
         
         if !isViewAlreadyLoaded {
             isViewAlreadyLoaded = true
-            refreshController.refresh()
+            refresh()
+        }
+    }
+    
+    @objc private func refresh() {
+        delegate.didRequestFeedRefresh()
+    }
+    
+    func display(_ viewModel: FeedLoadingViewModel) {
+        if viewModel.isLoading {
+            refreshControl?.beginRefreshing()
+        } else {
+            refreshControl?.endRefreshing()
         }
     }
     
