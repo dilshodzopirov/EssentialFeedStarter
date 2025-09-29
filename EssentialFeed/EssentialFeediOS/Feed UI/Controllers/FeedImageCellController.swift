@@ -20,6 +20,10 @@ final class FeedImageCellController: FeedImageView {
     
     public func view(in tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         cell = tableView.dequeueCell(for: indexPath)
+        cell?.onRetry = delegate.loadImageData
+        cell?.onReuse = { [weak self] in
+            self?.releaseCellForReuse()
+        }
         delegate.loadImageData()
         return cell!
     }
@@ -37,7 +41,6 @@ final class FeedImageCellController: FeedImageView {
         cell?.locationContainer.isHidden = !viewModel.hasLocation
         cell?.locationLabel.text = viewModel.location
         cell?.descriptionLabel.text = viewModel.description
-        cell?.onRetry = delegate.loadImageData
         cell?.feedImageView.setImageAnimated(viewModel.image)
         cell?.feedImageContainer.isShimmering = viewModel.isLoading
         cell?.feedImageRetryButton.isHidden = !viewModel.shouldRetry
