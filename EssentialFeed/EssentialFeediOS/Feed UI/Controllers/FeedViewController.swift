@@ -30,6 +30,7 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.prefetchDataSource = self
+        tableView.register(FeedImageCell.self, forCellReuseIdentifier: "FeedImageCell")
     }
     
     public override func viewIsAppearing(_ animated: Bool) {
@@ -58,7 +59,7 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return cellController(forRowAt: indexPath).view()
+        return cellController(forRowAt: indexPath).view(in: tableView, indexPath: indexPath)
     }
     
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -81,5 +82,15 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     
     private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
         cellController(forRowAt: indexPath).cancelLoad()
+    }
+}
+
+extension UITableView {
+    func register<T: UITableViewCell>(_ cellType: T) {
+        register(T.self, forCellReuseIdentifier: String(describing: cellType.self))
+    }
+    
+    func dequeueCell<T: UITableViewCell>(for indexPath: IndexPath) -> T {
+        return dequeueReusableCell(withIdentifier: String(describing: T.self), for: indexPath) as! T
     }
 }

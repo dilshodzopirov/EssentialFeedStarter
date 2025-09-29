@@ -11,16 +11,17 @@ protocol FeedImageCellControllerDelegate {
 
 final class FeedImageCellController: FeedImageView {
     typealias Image = UIImage
-    private lazy var cell = FeedImageCell()
+    private var cell: FeedImageCell?
     private let delegate: FeedImageCellControllerDelegate
     
     init(delegate: FeedImageCellControllerDelegate) {
         self.delegate = delegate
     }
     
-    public func view() -> UITableViewCell {
+    public func view(in tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        cell = tableView.dequeueCell(for: indexPath)
         delegate.loadImageData()
-        return cell
+        return cell!
     }
     
     func preload() {
@@ -32,17 +33,17 @@ final class FeedImageCellController: FeedImageView {
     }
     
     func display(_ viewModel: FeedImageViewModel<Image>) {
-        cell.locationContainer.isHidden = !viewModel.hasLocation
-        cell.locationLabel.text = viewModel.location
-        cell.descriptionLabel.text = viewModel.description
-        cell.onRetry = delegate.loadImageData
+        cell?.locationContainer.isHidden = !viewModel.hasLocation
+        cell?.locationLabel.text = viewModel.location
+        cell?.descriptionLabel.text = viewModel.description
+        cell?.onRetry = delegate.loadImageData
         
-        cell.feedImageView.image = viewModel.image
+        cell?.feedImageView.image = viewModel.image
         if viewModel.isLoading {
-            cell.feedImageContainer.startShimmering()
+            cell?.feedImageContainer.startShimmering()
         } else {
-            cell.feedImageContainer.stopShimmering()
+            cell?.feedImageContainer.stopShimmering()
         }
-        cell.feedImageRetryButton.isHidden = !viewModel.shouldRetry
+        cell?.feedImageRetryButton.isHidden = !viewModel.shouldRetry
     }
 }
