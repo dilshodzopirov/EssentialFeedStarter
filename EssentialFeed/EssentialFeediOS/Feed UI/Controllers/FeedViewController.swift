@@ -4,23 +4,33 @@
 
 import UIKit
 
-public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var refreshController: FeedRefreshViewController?
+protocol FeedViewControllerDelegate {
+    func didRequestFeedRefresh()
+}
+
+public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView {
+    private let delegate: FeedViewControllerDelegate
     private var isViewAlreadyLoaded = false
     var tableModel: [FeedImageCellController] = [] {
         didSet { tableView.reloadData() }
     }
     
-    convenience init(refreshController: FeedRefreshViewController) {
-        self.init()
-        self.refreshController = refreshController
+    init(delegate: FeedViewControllerDelegate) {
+        self.delegate = delegate
+        super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshControl = refreshController?.view
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.prefetchDataSource = self
+        tableView.register(FeedImageCell.self)
     }
     
     public override func viewIsAppearing(_ animated: Bool) {
@@ -28,7 +38,19 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
         
         if !isViewAlreadyLoaded {
             isViewAlreadyLoaded = true
-            refreshController?.refresh()
+            refresh()
+        }
+    }
+    
+    @objc private func refresh() {
+        delegate.didRequestFeedRefresh()
+    }
+    
+    func display(_ viewModel: FeedLoadingViewModel) {
+        if viewModel.isLoading {
+            refreshControl?.beginRefreshing()
+        } else {
+            refreshControl?.endRefreshing()
         }
     }
     
@@ -37,7 +59,7 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return cellController(forRowAt: indexPath).view()
+        return cellController(forRowAt: indexPath).view(in: tableView, indexPath: indexPath)
     }
     
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
