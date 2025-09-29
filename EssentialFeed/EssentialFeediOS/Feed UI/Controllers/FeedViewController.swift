@@ -5,21 +5,25 @@
 import UIKit
 
 public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var refreshController: FeedRefreshViewController?
+    private let refreshController: FeedRefreshViewController
     private var isViewAlreadyLoaded = false
     var tableModel: [FeedImageCellController] = [] {
         didSet { tableView.reloadData() }
     }
     
-    convenience init(refreshController: FeedRefreshViewController) {
-        self.init()
+    init(refreshController: FeedRefreshViewController) {
         self.refreshController = refreshController
+        super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshControl = refreshController?.view
+        refreshControl = refreshController.view
         tableView.prefetchDataSource = self
     }
     
@@ -28,7 +32,7 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
         
         if !isViewAlreadyLoaded {
             isViewAlreadyLoaded = true
-            refreshController?.refresh()
+            refreshController.refresh()
         }
     }
     
