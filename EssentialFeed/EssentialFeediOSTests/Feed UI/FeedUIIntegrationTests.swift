@@ -80,7 +80,7 @@ class FeedUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [image0])
     }
     
-    func test_loadFeedCompletion_doesNotRenderImageOnLoadFeed() {
+    func test_loadFeedCompletion_doesNotRenderErrorOnLoad() {
         let (sut, _) = makeSUT()
         
         sut.simulateAppearance()
