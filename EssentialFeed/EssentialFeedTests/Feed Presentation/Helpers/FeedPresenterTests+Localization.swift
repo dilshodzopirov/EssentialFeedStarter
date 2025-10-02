@@ -4,6 +4,7 @@
 
 import Foundation
 import XCTest
+import EssentialFeed
 
 extension FeedPresenterTests {
     func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
