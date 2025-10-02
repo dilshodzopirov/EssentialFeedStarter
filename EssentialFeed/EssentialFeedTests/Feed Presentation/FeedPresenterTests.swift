@@ -92,7 +92,7 @@ final class FeedPresenterTests: XCTestCase {
         )
     }
     
-    func test_didFinishLoadingFeed_displaysFeedAndFinishesLoading() {
+    func test_didFinishLoadingFeed_displaysFeedAndStopsLoading() {
         let (sut, view) = makeSUT()
         let feed: [FeedImage] = uniqueImageFeed().models
         sut.didFinishLoadingFeed(with: feed)
@@ -104,7 +104,7 @@ final class FeedPresenterTests: XCTestCase {
         )
     }
     
-    func test_didFinishLoadingFeedWithError_displaysErrorAndFinishesLoading() {
+    func test_didFinishLoadingFeedWithError_displaysLocalizedErrorAndStopsLoading() {
         let (sut, view) = makeSUT()
         sut.didFinishLoadingFeed(with: anyNSError())
         
