@@ -4,7 +4,6 @@
 
 import XCTest
 import EssentialFeed
-import EssentialFeediOS
 
 final class FeedLocalizationTests: XCTestCase {
     
