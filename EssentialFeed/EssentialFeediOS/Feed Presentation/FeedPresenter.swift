@@ -5,7 +5,7 @@
 import Foundation
 import EssentialFeed
 
-struct ErrorViewModel {
+struct FeedErrorViewModel {
     let message: String?
 }
 
@@ -18,7 +18,7 @@ protocol FeedView {
 }
 
 protocol FeedErrorView {
-    func display(_ viewModel: ErrorViewModel)
+    func display(_ viewModel: FeedErrorViewModel)
 }
 
 public final class FeedPresenter {
@@ -51,7 +51,7 @@ public final class FeedPresenter {
     }
     
     func didStartLoadingFeed() {
-        errorView.display(ErrorViewModel(message: nil))
+        errorView.display(FeedErrorViewModel(message: nil))
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
@@ -62,6 +62,6 @@ public final class FeedPresenter {
     
     func didFinishLoadingFeed(with error: Error) {
         loadingView.display(FeedLoadingViewModel(isLoading: false))
-        errorView.display(ErrorViewModel(message: feedLoadError))
+        errorView.display(FeedErrorViewModel(message: feedLoadError))
     }
 }
