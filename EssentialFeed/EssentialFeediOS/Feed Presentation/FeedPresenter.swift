@@ -27,7 +27,7 @@ public final class FeedPresenter {
         self.loadingView = loadingView
         self.errorView = errorView
     }
-
+    
     static var title: String {
         return NSLocalizedString(
             "FEED_VIEW_TITLE",
