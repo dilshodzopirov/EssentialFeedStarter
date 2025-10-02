@@ -12,7 +12,7 @@ public class ErrorView: UIView {
     public var message: String?
 }
 
-public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView {
+public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView, FeedErrorView {
     private let delegate: FeedViewControllerDelegate
     private var isViewAlreadyLoaded = false
     var tableModel: [FeedImageCellController] = [] {
@@ -57,6 +57,10 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
         } else {
             refreshControl?.endRefreshing()
         }
+    }
+    
+    func display(_ viewModel: ErrorViewModel) {
+        errorView.message = viewModel.message
     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
