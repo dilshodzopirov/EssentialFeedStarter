@@ -11,6 +11,16 @@ public final class ErrorView: UIView {
         set { setMessageAnimated(newValue) }
     }
     
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideMessageAnimated)))
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private var isVisible: Bool {
         return self.alpha > 0
     }
@@ -30,7 +40,7 @@ public final class ErrorView: UIView {
         }
     }
     
-    private func hideMessageAnimated() {
+    @objc private func hideMessageAnimated() {
         UIView.animate(
             withDuration: 0.25,
             animations: { self.alpha = 0 },
