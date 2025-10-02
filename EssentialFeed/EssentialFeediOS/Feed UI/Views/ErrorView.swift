@@ -5,5 +5,11 @@
 import UIKit
 
 public final class ErrorView: UIView {
-    public var message: String?
+    private let label = UILabel()
+    public var message: String? {
+        get { label.text }
+        set { label.text = newValue }
+    }
+    
+    
 }
