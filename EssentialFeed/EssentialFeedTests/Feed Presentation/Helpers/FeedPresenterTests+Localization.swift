@@ -1,12 +1,12 @@
 //
-//  Created by Dilshod Zopirov on 9/29/25.
+//  Created by Dilshod Zopirov on 10/2/25.
 //
 
 import Foundation
 import XCTest
 import EssentialFeed
 
-extension FeedUIIntegrationTests {
+extension FeedPresenterTests {
     func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
         let table = "Feed"
         let bundle = Bundle(for: FeedPresenter.self)

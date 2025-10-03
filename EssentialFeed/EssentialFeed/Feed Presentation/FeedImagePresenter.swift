@@ -1,28 +1,27 @@
 //
-//  Created by Dilshod Zopirov on 9/28/25.
+//  Created by Dilshod Zopirov on 10/3/25.
 //
 
 import Foundation
-import EssentialFeed
 
-protocol FeedImageView {
-    associatedtype Image
+public protocol FeedImageView {
+    associatedtype Image: Equatable
     
     func display(_ viewModel: FeedImageViewModel<Image>)
 }
 
-final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == Image {
+public final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == Image {
     private let model: FeedImage
-    private let imageTransformer: (Data) -> Image?
     private let view: View
-    
-    init(view: View, model: FeedImage, imageTransformer: @escaping (Data) -> Image?) {
-        self.view = view
+    private let imageTransformer: (Data) -> Image?
+
+    public init(model: FeedImage, view: View, imageTransformer: @escaping (Data) -> Image?) {
         self.model = model
+        self.view = view
         self.imageTransformer = imageTransformer
     }
     
-    func didStartLoadingImageData() {
+    public func didStartLoadingImageData() {
         view.display(
             FeedImageViewModel(
                 location: model.location,
@@ -36,7 +35,7 @@ final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == I
     
     private struct InvalidImageDataError: Error {}
     
-    func didFinishLoadingImageData(with data: Data) {
+    public func didFinishLoadingImageData(with data: Data) {
         guard let image = imageTransformer(data) else {
             return didFinishLoadingImageData(with: InvalidImageDataError())
         }
@@ -52,7 +51,7 @@ final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == I
         )
     }
     
-    func didFinishLoadingImageData(with error: Error) {
+    public func didFinishLoadingImageData(with error: Error) {
         view.display(
             FeedImageViewModel(
                 location: model.location,
@@ -64,3 +63,4 @@ final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == I
         )
     }
 }
+
