@@ -89,29 +89,30 @@ final class FeedImagePresenterTests: XCTestCase {
         let (sut, view, model) = makeSUT()
         sut.didStartLoadingImageData()
         
-        let viewModel = FeedImageViewModel<MockImage>(
-            location: model.location,
-            description: model.description,
-            image: nil,
-            isLoading: true,
-            shouldRetry: false
-        )
-        XCTAssertEqual(view.viewModel, viewModel)
+        assertThat(view, model: model, image: nil, isLoading: true, shoudRetry: false)
     }
     
-    func test_didFinishLoadingImageData_displaysLocationAndDescriptionAndImageAndStopsLoading() {
+    func test_didFinishLoadingImageDataWithValidData_displaysLocationAndDescriptionAndImageAndStopsLoading() {
         let anyData = Data("any-data".utf8)
         let (sut, view, model) = makeSUT(imageTransformer: successfullImageTransformer)
         sut.didFinishLoadingImageData(with: anyData)
         
-        let viewModel = FeedImageViewModel<MockImage>(
-            location: model.location,
-            description: model.description,
-            image: MockImage(data: anyData),
-            isLoading: false,
-            shouldRetry: false
-        )
-        XCTAssertEqual(view.viewModel, viewModel)
+        assertThat(view, model: model, image: MockImage(data: anyData), isLoading: false, shoudRetry: false)
+    }
+    
+    func test_didFinishLoadingImageDataInvalidData_displaysLocationAndDescriptionAndRetryButtonAndStopsLoading() {
+        let anyData = Data("any-data".utf8)
+        let (sut, view, model) = makeSUT(imageTransformer: failingImageTransformer)
+        sut.didFinishLoadingImageData(with: anyData)
+        
+        assertThat(view, model: model, image: nil, isLoading: false, shoudRetry: true)
+    }
+    
+    func test_didFinishLoadingImageDataWithError_displaysLocationAndDescriptionAndRetryButtonAndStopsLoading() {
+        let (sut, view, model) = makeSUT()
+        sut.didFinishLoadingImageData(with: anyNSError())
+        
+        assertThat(view, model: model, image: nil, isLoading: false, shoudRetry: true)
     }
     
     // MARK: Helpers
@@ -127,6 +128,17 @@ final class FeedImagePresenterTests: XCTestCase {
         trackForMemoryLeaks(view, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, view, model)
+    }
+    
+    private func assertThat(_ view: ViewSpy<MockImage>, model: FeedImage, image: MockImage?, isLoading: Bool, shoudRetry: Bool, file: StaticString = #filePath, line: UInt = #line) {
+        let viewModel = FeedImageViewModel<MockImage>(
+            location: model.location,
+            description: model.description,
+            image: image,
+            isLoading: isLoading,
+            shouldRetry: shoudRetry
+        )
+        XCTAssertEqual(view.viewModel, viewModel, file: file, line: line)
     }
     
     private func successfullImageTransformer(data: Data) -> MockImage? {
