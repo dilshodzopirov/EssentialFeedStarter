@@ -21,7 +21,7 @@ final class FeedImagePresenterTests: XCTestCase {
     }
     
     func test_didFinishLoadingImageDataWithValidData_displaysLocationAndDescriptionAndImageAndStopsLoading() {
-        let anyData = Data("any-data".utf8)
+        let anyData = anyData()
         let (sut, view, model) = makeSUT(imageTransformer: successfullImageTransformer)
         sut.didFinishLoadingImageData(with: anyData)
         
@@ -29,9 +29,8 @@ final class FeedImagePresenterTests: XCTestCase {
     }
     
     func test_didFinishLoadingImageDataInvalidData_displaysLocationAndDescriptionAndRetryButtonAndStopsLoading() {
-        let anyData = Data("any-data".utf8)
         let (sut, view, model) = makeSUT(imageTransformer: failingImageTransformer)
-        sut.didFinishLoadingImageData(with: anyData)
+        sut.didFinishLoadingImageData(with: anyData())
         
         assertThat(view, model: model, image: nil, isLoading: false, shoudRetry: true)
     }
@@ -56,6 +55,10 @@ final class FeedImagePresenterTests: XCTestCase {
         trackForMemoryLeaks(view, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, view, model)
+    }
+    
+    private func anyData() -> Data {
+        return Data("any-data".utf8)
     }
     
     private func assertThat(_ view: ViewSpy<MockImage>, model: FeedImage, image: MockImage?, isLoading: Bool, shoudRetry: Bool, file: StaticString = #filePath, line: UInt = #line) {
