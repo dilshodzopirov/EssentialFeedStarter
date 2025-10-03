@@ -5,11 +5,11 @@
 import Foundation
 
 public struct FeedImageViewModel<Image: Equatable>: Equatable {
-    let location: String?
-    let description: String?
-    let image: Image?
-    let isLoading: Bool
-    let shouldRetry: Bool
+    public let location: String?
+    public let description: String?
+    public let image: Image?
+    public let isLoading: Bool
+    public let shouldRetry: Bool
     
     public init(location: String?, description: String?, image: Image?, isLoading: Bool, shouldRetry: Bool) {
         self.location = location
@@ -19,7 +19,7 @@ public struct FeedImageViewModel<Image: Equatable>: Equatable {
         self.shouldRetry = shouldRetry
     }
     
-    var hasLocation: Bool {
+    public var hasLocation: Bool {
         return location != nil
     }
 }
