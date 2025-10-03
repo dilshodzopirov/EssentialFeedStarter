@@ -8,92 +8,87 @@ import EssentialFeed
 final class FeedImagePresenterTests: XCTestCase {
     
     func test_init_doesNotMessageView() {
-        let (_, view, _) = makeSUT()
+        let image = uniqueImage()
+        let (_, view) = makeSUT(image: image)
         
-        XCTAssertEqual(view.viewModel, nil)
+        XCTAssertNil(view.message)
     }
     
-    func test_didStartLoadingImageData_displaysLocationAndDescriptionAndStartsLoading() {
-        let (sut, view, model) = makeSUT()
+    func test_didStartLoadingImageData_displaysLoadingImage() {
+        let image = uniqueImage()
+        let (sut, view) = makeSUT(image: image)
+        
         sut.didStartLoadingImageData()
         
-        assertThat(view, model: model, image: nil, isLoading: true, shoudRetry: false)
+        XCTAssertEqual(view.message?.location, image.location)
+        XCTAssertEqual(view.message?.description, image.description)
+        XCTAssertEqual(view.message?.isLoading, true)
+        XCTAssertEqual(view.message?.shouldRetry, false)
+        XCTAssertNil(view.message?.image)
     }
     
-    func test_didFinishLoadingImageDataWithValidData_displaysLocationAndDescriptionAndImageAndStopsLoading() {
-        let anyData = anyData()
-        let (sut, view, model) = makeSUT(imageTransformer: successfullImageTransformer)
-        sut.didFinishLoadingImageData(with: anyData)
+    func test_didFinishLoadingImageData_displaysRetryOnFailedImageTransformation() {
+        let image = uniqueImage()
+        let (sut, view) = makeSUT(image: image, imageTransformer: fail)
+        sut.didFinishLoadingImageData(with: Data())
         
-        assertThat(view, model: model, image: MockImage(data: anyData), isLoading: false, shoudRetry: false)
+        XCTAssertEqual(view.message?.location, image.location)
+        XCTAssertEqual(view.message?.description, image.description)
+        XCTAssertEqual(view.message?.isLoading, false)
+        XCTAssertEqual(view.message?.shouldRetry, true)
+        XCTAssertNil(view.message?.image)
     }
     
-    func test_didFinishLoadingImageDataInvalidData_displaysLocationAndDescriptionAndRetryButtonAndStopsLoading() {
-        let (sut, view, model) = makeSUT(imageTransformer: failingImageTransformer)
-        sut.didFinishLoadingImageData(with: anyData())
+    func test_didFinishLoadingImageData_displaysImageOnSuccessfullTransformation() {
+        let image = uniqueImage()
+        let transformedData = MockImage()
+        let (sut, view) = makeSUT(image: image, imageTransformer: { _ in transformedData })
+        sut.didFinishLoadingImageData(with: Data())
         
-        assertThat(view, model: model, image: nil, isLoading: false, shoudRetry: true)
+        XCTAssertEqual(view.message?.location, image.location)
+        XCTAssertEqual(view.message?.description, image.description)
+        XCTAssertEqual(view.message?.isLoading, false)
+        XCTAssertEqual(view.message?.shouldRetry, false)
+        XCTAssertEqual(view.message?.image, transformedData)
     }
     
-    func test_didFinishLoadingImageDataWithError_displaysLocationAndDescriptionAndRetryButtonAndStopsLoading() {
-        let (sut, view, model) = makeSUT()
+    func test_didFinishLoadingImageDataWithError_displaysRetry() {
+        let image = uniqueImage()
+        let (sut, view) = makeSUT(image: image)
         sut.didFinishLoadingImageData(with: anyNSError())
         
-        assertThat(view, model: model, image: nil, isLoading: false, shoudRetry: true)
+        XCTAssertEqual(view.message?.location, image.location)
+        XCTAssertEqual(view.message?.description, image.description)
+        XCTAssertEqual(view.message?.isLoading, false)
+        XCTAssertEqual(view.message?.shouldRetry, true)
+        XCTAssertNil(view.message?.image)
     }
     
     // MARK: Helpers
     
-    private func makeSUT(imageTransformer: @escaping (Data) -> MockImage? = { _ in MockImage(data: Data()) }, file: StaticString = #filePath, line: UInt = #line) -> (
+    private func makeSUT(image: FeedImage, imageTransformer: @escaping (Data) -> MockImage? = { _ in nil }, file: StaticString = #filePath, line: UInt = #line) -> (
         sut: FeedImagePresenter<ViewSpy<MockImage>, MockImage>,
-        view: ViewSpy<MockImage>,
-        model: FeedImage
+        view: ViewSpy<MockImage>
     ) {
         let view = ViewSpy<MockImage>()
-        let model = uniqueImage()
-        let sut = FeedImagePresenter<ViewSpy, MockImage>(model: model, view: view, imageTransformer: imageTransformer)
+        let sut = FeedImagePresenter<ViewSpy, MockImage>(model: image, view: view, imageTransformer: imageTransformer)
         trackForMemoryLeaks(view, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
-        return (sut, view, model)
+        return (sut, view)
     }
     
-    private func anyData() -> Data {
-        return Data("any-data".utf8)
-    }
-    
-    private func assertThat(_ view: ViewSpy<MockImage>, model: FeedImage, image: MockImage?, isLoading: Bool, shoudRetry: Bool, file: StaticString = #filePath, line: UInt = #line) {
-        let viewModel = FeedImageViewModel<MockImage>(
-            location: model.location,
-            description: model.description,
-            image: image,
-            isLoading: isLoading,
-            shouldRetry: shoudRetry
-        )
-        XCTAssertEqual(view.viewModel, viewModel, file: file, line: line)
-    }
-    
-    private func successfullImageTransformer(data: Data) -> MockImage? {
-        return MockImage(data: data)
-    }
-    
-    private func failingImageTransformer(data: Data) -> MockImage? {
-        return nil
+    private var fail: (Data) -> MockImage? {
+        return { _ in nil }
     }
     
     private class ViewSpy<Image: Equatable>: FeedImageView {
         typealias Image = Image
-        var viewModel: FeedImageViewModel<Image>?
+        var message: FeedImageViewModel<Image>?
         
-        func display(_ viewModel: FeedImageViewModel<Image>) {
-            self.viewModel = viewModel
+        func display(_ model: FeedImageViewModel<Image>) {
+            self.message = model
         }
     }
     
-    private struct MockImage: Equatable {
-        private let data: Data
-        
-        init(data: Data) {
-            self.data = data
-        }
-    }
+    private struct MockImage: Equatable {}
 }

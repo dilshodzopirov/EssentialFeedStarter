@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct FeedImageViewModel<Image: Equatable>: Equatable {
+public struct FeedImageViewModel<Image> {
     public let location: String?
     public let description: String?
     public let image: Image?
