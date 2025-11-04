@@ -172,10 +172,6 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         return (sut, client)
     }
     
-    private func anyData() -> Data {
-        return Data("any-data".utf8)
-    }
-    
     private func expect(
         _ sut: RemoteFeedImageDataLoader,
         toCompleteWith expectedResult: FeedImageDataLoader.Result,
