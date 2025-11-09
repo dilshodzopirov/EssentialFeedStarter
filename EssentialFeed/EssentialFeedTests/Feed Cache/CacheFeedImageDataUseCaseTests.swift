@@ -82,7 +82,7 @@ final class CacheFeedImageDataUseCaseTests: XCTestCase {
             case let (.failure(expectedError as LocalFeedImageDataLoader.SaveError), .failure(receivedError as LocalFeedImageDataLoader.SaveError)):
                 XCTAssertEqual(expectedError, receivedError, file: file, line: line)
             default:
-                XCTFail("Expected \(expectedResult), got \(receivedResult) instead.")
+                XCTFail("Expected \(expectedResult), got \(receivedResult) instead.", file: file, line: line)
             }
             exp.fulfill()
         }
