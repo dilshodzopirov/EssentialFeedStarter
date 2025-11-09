@@ -5,57 +5,6 @@
 import XCTest
 import EssentialFeed
 
-protocol FeedImageDataStore {
-    typealias Result = Swift.Result<Data?, Error>
-    func retrieve(dataForURL url: URL, completion: @escaping (Result) -> Void)
-}
-
-final class LocalFeedImageDataLoader: FeedImageDataLoader {
-    private class Task: FeedImageDataLoaderTask {
-        private var completion: ((FeedImageDataLoader.Result) -> Void)?
-        
-        init(_ completion: ((FeedImageDataLoader.Result) -> Void)?) {
-            self.completion = completion
-        }
-        
-        func cancel() {
-            preventFurtherCompletions()
-        }
-        
-        func complete(with result: FeedImageDataLoader.Result) {
-            completion?(result)
-        }
-        
-        private func preventFurtherCompletions() {
-            completion = nil
-        }
-    }
-    
-    public enum Error: Swift.Error {
-        case failed
-        case notFound
-    }
-    
-    private let store: FeedImageDataStore
-    
-    init(store: FeedImageDataStore) {
-        self.store = store
-    }
-    
-    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
-        let task = Task(completion)
-        store.retrieve(dataForURL: url) { [weak self] result in
-            guard self != nil else { return }
-            
-            task.complete(with: result
-                .mapError { _ in Error.failed }
-                .flatMap { data in data.map { .success($0) } ?? .failure(Error.notFound) }
-            )
-        }
-        return task
-    }
-}
-
 final class LocalFeedImageDataLoaderTests: XCTestCase {
     
     func test_init_doesNotMessageStore() {
@@ -66,7 +15,7 @@ final class LocalFeedImageDataLoaderTests: XCTestCase {
     
     func test_loadImageData_requestsStoredDataForURL() {
         let (sut, store) = makeSUT()
-        let url = URL(string: "http://a-given-url.com")!
+        let url = anyURL()
         
         _ = sut.loadImageData(from: url) { _ in }
         
