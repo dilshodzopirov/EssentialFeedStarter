@@ -20,6 +20,8 @@
 		CE3BB8052EBF19D90084F81B /* LoadFeedImageDataFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BB8042EBF19C70084F81B /* LoadFeedImageDataFromCacheUseCaseTests.swift */; };
 		CE3BB8072EC04CE40084F81B /* LocalFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BB8062EC04CE40084F81B /* LocalFeedImageDataLoader.swift */; };
 		CE3BB8092EC04CFF0084F81B /* FeedImageDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BB8082EC04CFF0084F81B /* FeedImageDataStore.swift */; };
+		CE3BB80B2EC062DE0084F81B /* FeedImageDataStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BB80A2EC062D40084F81B /* FeedImageDataStoreSpy.swift */; };
+		CE3BB80C2EC062DE0084F81B /* FeedImageDataStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BB80A2EC062D40084F81B /* FeedImageDataStoreSpy.swift */; };
 		CE5E16DB2EADFCB700EC2A37 /* LoadFeedImageDataFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5E16DA2EADFC9D00EC2A37 /* LoadFeedImageDataFromRemoteUseCaseTests.swift */; };
 		CE648BB02E8023590007B844 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
 		CE648BB62E8068D00007B844 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
@@ -158,6 +160,7 @@
 		CE3BB8042EBF19C70084F81B /* LoadFeedImageDataFromCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedImageDataFromCacheUseCaseTests.swift; sourceTree = "<group>"; };
 		CE3BB8062EC04CE40084F81B /* LocalFeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImageDataLoader.swift; sourceTree = "<group>"; };
 		CE3BB8082EC04CFF0084F81B /* FeedImageDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataStore.swift; sourceTree = "<group>"; };
+		CE3BB80A2EC062D40084F81B /* FeedImageDataStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataStoreSpy.swift; sourceTree = "<group>"; };
 		CE5E16DA2EADFC9D00EC2A37 /* LoadFeedImageDataFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedImageDataFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
 		CE648BB52E8067A00007B844 /* CI_macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI_macOS.xctestplan; sourceTree = "<group>"; };
 		CE648C0B2E83FC9B0007B844 /* FeedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCell.swift; sourceTree = "<group>"; };
@@ -599,6 +602,7 @@
 		CEDD28252E6ABB3D001A7954 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				CE3BB80A2EC062D40084F81B /* FeedImageDataStoreSpy.swift */,
 				CEDD28262E6ABB8D001A7954 /* FeedCacheTestHelpers.swift */,
 				CEDD280E2E66FA11001A7954 /* FeedStoreSpy.swift */,
 			);
@@ -913,6 +917,7 @@
 				CEDD27FC2E655D35001A7954 /* CacheFeedUseCaseTests.swift in Sources */,
 				CE7A3B572E6F097F00BD9394 /* XCTestCase+FailableDeleteFeedStoreSpecs.swift in Sources */,
 				CE7A3B532E6F06BF00BD9394 /* XCTestCase+FailableRetrieveFeedStoreSpecs.swift in Sources */,
+				CE3BB80B2EC062DE0084F81B /* FeedImageDataStoreSpy.swift in Sources */,
 				CEDD280D2E66F99D001A7954 /* LoadFeedFromCacheUseCaseTests.swift in Sources */,
 				CE3BB8052EBF19D90084F81B /* LoadFeedImageDataFromCacheUseCaseTests.swift in Sources */,
 				CE7A3B4F2E6EF19200BD9394 /* FeedStoreSpecs.swift in Sources */,
@@ -929,6 +934,7 @@
 			files = (
 				CE28E3FC2E71D17000F20A27 /* SharedTestHelpers.swift in Sources */,
 				CE28E3FB2E71D01300F20A27 /* FeedCacheTestHelpers.swift in Sources */,
+				CE3BB80C2EC062DE0084F81B /* FeedImageDataStoreSpy.swift in Sources */,
 				CE648C152E83FC9F0007B844 /* EssentialFeedCacheIntegrationTests.swift in Sources */,
 				CE28E3BA2E7095FE00F20A27 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
