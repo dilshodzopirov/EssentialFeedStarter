@@ -1,7 +1,4 @@
 //
-//  CoreDataFeedStore.swift
-//  EssentialFeed
-//
 //  Created by Dilshod Zopirov on 9/8/25.
 //
 
@@ -47,7 +44,7 @@ public class CoreDataFeedStore: FeedStore {
         }
     }
     
-    private func perform(action: @escaping (NSManagedObjectContext) -> Void) {
+    func perform(action: @escaping (NSManagedObjectContext) -> Void) {
         let context = self.context
         context.perform { action(context) }
     }

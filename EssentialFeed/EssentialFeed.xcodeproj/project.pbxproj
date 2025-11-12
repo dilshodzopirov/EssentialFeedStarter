@@ -1580,7 +1580,7 @@
 				CE3BB8112EC1C2DB0084F81B /* FeedStore2.xcdatamodel */,
 				CE7A3B5C2E6F1FA200BD9394 /* FeedStore.xcdatamodel */,
 			);
-			currentVersion = CE7A3B5C2E6F1FA200BD9394 /* FeedStore.xcdatamodel */;
+			currentVersion = CE3BB8112EC1C2DB0084F81B /* FeedStore2.xcdatamodel */;
 			path = FeedStore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
