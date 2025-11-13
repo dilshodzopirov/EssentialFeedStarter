@@ -23,42 +23,102 @@ final class EssentialFeedCacheIntegrationTests: XCTestCase {
     }
     
     func test_load_deliversNoItemsOnEmptyCache() {
-        let sut = makeSUT()
+        let sut = makeFeedLoader()
         
         expect(sut, toLoad: [])
     }
     
     func test_load_deliversItemsSavedOnASeparateInstance() {
-        let savingSUT = makeSUT()
-        let loadingSUT = makeSUT()
+        let feedLoaderToPerformSave = makeFeedLoader()
+        let feedLoaderToPerformLoad = makeFeedLoader()
         let feed = uniqueImageFeed().models
         
-        save(feed, to: savingSUT)
+        save(feed, to: feedLoaderToPerformSave)
         
-        expect(loadingSUT, toLoad: feed)
+        expect(feedLoaderToPerformLoad, toLoad: feed)
     }
     
-    func test_save_overridesPreviousSavedItemsOnASeparateInstance() {
-        let firstSavingSUT = makeSUT()
-        let latestSavingSUT = makeSUT()
-        let loadingSUT = makeSUT()
+    func test_saveFeed_overridesItemsSavedOnASeparateInstance() {
+        let feedLoaderToPerformFirstSave = makeFeedLoader()
+        let feedLoaderToPerformLastSave = makeFeedLoader()
+        let feedLoaderToPerformLoad = makeFeedLoader()
         let firstFeed = uniqueImageFeed().models
         let latestFeed = uniqueImageFeed().models
 
-        save(firstFeed, to: firstSavingSUT)
+        save(firstFeed, to: feedLoaderToPerformFirstSave)
+        save(latestFeed, to: feedLoaderToPerformLastSave)
         
-        save(latestFeed, to: latestSavingSUT)
+        expect(feedLoaderToPerformLoad, toLoad: latestFeed)
+    }
+    
+    func test_validateFeedCache_doesNotDeleteRecentlySavedFeed() {
+        let feedLoaderToPerformSave = makeFeedLoader()
+        let feedLoaderToPerformValidation = makeFeedLoader()
+        let feed = uniqueImageFeed().models
         
-        expect(loadingSUT, toLoad: latestFeed)
+        save(feed, to: feedLoaderToPerformSave)
+        validateCache(with: feedLoaderToPerformValidation)
+        
+        expect(feedLoaderToPerformSave, toLoad: feed)
+    }
+    
+    func test_validateFeedCache_deletesFeedSavedInADistantPast() {
+        let feedLoaderToPerformSave = makeFeedLoader(currentDate: .distantPast)
+        let feedLoaderToPerformValidation = makeFeedLoader(currentDate: Date())
+        let feed = uniqueImageFeed().models
+        
+        save(feed, to: feedLoaderToPerformSave)
+        validateCache(with: feedLoaderToPerformValidation)
+        
+        expect(feedLoaderToPerformSave, toLoad: [])
+    }
+    
+    // MARK: LocalFeedImageDataLoader Tests
+    
+    func test_loadImageData_deliversSaveDataOnSeprateInstance() {
+        let imageLoaderToPerformSave = makeImageLoader()
+        let imageLoaderToPerformLoad = makeImageLoader()
+        let feedLoader = makeFeedLoader()
+        let image = uniqueImage()
+        let dataToSave = anyData()
+        
+        save([image], to: feedLoader)
+        save(dataToSave, for: image.url, with: imageLoaderToPerformSave)
+        
+        expect(imageLoaderToPerformLoad, toLoad: dataToSave, for: image.url)
+    }
+    
+    func test_saveImageData_overridesSavedImageDataOnASeparateInstance() {
+        let imageLoaderToPerformFirstSave = makeImageLoader()
+        let imageLoaderToPerformLastSave = makeImageLoader()
+        let imageLoaderToPerformLoad = makeImageLoader()
+        let feedLoader = makeFeedLoader()
+        let image = uniqueImage()
+        let firstImageData = Data("first".utf8)
+        let lastImageData = Data("last".utf8)
+        
+        save([image], to: feedLoader)
+        save(firstImageData, for: image.url, with: imageLoaderToPerformFirstSave)
+        save(lastImageData, for: image.url, with: imageLoaderToPerformLastSave)
+        
+        expect(imageLoaderToPerformLoad, toLoad: lastImageData, for: image.url)
     }
 
     // MARK: Helpers
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> LocalFeedLoader {
-        let storeBundle = Bundle(for: CoreDataFeedStore.self)
+    private func makeFeedLoader(currentDate: Date = Date(), file: StaticString = #filePath, line: UInt = #line) -> LocalFeedLoader {
         let storeURL = testSpecificURL()
-        let store = try! CoreDataFeedStore(storeURL: storeURL, bundle: storeBundle)
-        let sut = LocalFeedLoader(store: store, currentDate: Date.init)
+        let store = try! CoreDataFeedStore(storeURL: storeURL)
+        let sut = LocalFeedLoader(store: store, currentDate: { currentDate })
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(store, file: file, line: line)
+        return sut
+    }
+    
+    private func makeImageLoader(file: StaticString = #filePath, line: UInt = #line) -> LocalFeedImageDataLoader {
+        let storeURL = testSpecificURL()
+        let store = try! CoreDataFeedStore(storeURL: storeURL)
+        let sut = LocalFeedImageDataLoader(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return sut
@@ -78,20 +138,54 @@ final class EssentialFeedCacheIntegrationTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    private func validateCache(with loader: LocalFeedLoader, file: StaticString = #filePath, line: UInt = #line) {
+        let saveExp = expectation(description: "Wait for save completion")
+        loader.validateCache() { result in
+            if case let Result.failure(error) = result {
+                XCTFail("Expected to validate cache successfully, got error: \(error)", file: file, line: line)
+            }
+            saveExp.fulfill()
+        }
+        wait(for: [saveExp], timeout: 1.0)
+    }
+    
     private func save(_ feed: [FeedImage], to sut: LocalFeedLoader, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for save completion")
         sut.save(feed: feed) { result in
-            switch result {
-            case .success:
-                break
-            default:
-                XCTFail("Expected to save feed successfully", file: file, line: line)
+            if case let Result.failure(error) = result {
+                XCTFail("Expected to save feed successfully, got error: \(error)")
             }
             exp.fulfill()
         }
         
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    private func save(_ data: Data, for url: URL, with loader: LocalFeedImageDataLoader, file: StaticString = #filePath, line: UInt = #line) {
+        let saveExp = expectation(description: "Wait for save completion")
+        loader.save(data, for: url) { result in
+            if case let Result.failure(error) = result {
+                XCTFail("Expected to save data successfully, got error: \(error)")
+            }
+            saveExp.fulfill()
+        }
+        wait(for: [saveExp], timeout: 1.0)
+    }
+    
+    private func expect(_ sut: LocalFeedImageDataLoader, toLoad expectedData: Data, for url: URL, file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "Wait for load completion")
+        _ = sut.loadImageData(from: url, completion: { result in
+            switch result {
+            case let .success(loadedData):
+                XCTAssertEqual(loadedData, expectedData, file: file, line: line)
+                
+            case let .failure(error):
+                XCTFail("Expected successful image data result, got \(error) instead", file: file, line: line)
+            }
+            exp.fulfill()
+        })
         
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func testSpecificURL() -> URL {
