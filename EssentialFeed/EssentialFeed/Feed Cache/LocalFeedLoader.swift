@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class LocalFeedLoader {
+public final class LocalFeedLoader: FeedCache {
     private let store: FeedStore
     private let currentDate: () -> Date
     private let calendar = Calendar(identifier: .gregorian)
@@ -19,9 +19,9 @@ public final class LocalFeedLoader {
 }
     
 extension LocalFeedLoader {
-    public typealias SaveResult = Result<Void, Error>
+    public typealias SaveResult = FeedCache.Result
     
-    public func save(feed: [FeedImage], completion: @escaping(SaveResult) -> Void) {
+    public func save(_ feed: [FeedImage], completion: @escaping(SaveResult) -> Void) {
         self.store.deleteCache { [weak self] result in
             guard let self else { return }
             switch result {
