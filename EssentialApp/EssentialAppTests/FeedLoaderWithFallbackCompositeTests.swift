@@ -55,10 +55,6 @@ final class FeedLoaderWithFallbackCompositeTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func anyNSError() -> NSError {
-        return NSError(domain: "any error", code: 0)
-    }
-    
     private final class LoaderStub: FeedLoader {
         private let result: FeedLoader.Result
         
