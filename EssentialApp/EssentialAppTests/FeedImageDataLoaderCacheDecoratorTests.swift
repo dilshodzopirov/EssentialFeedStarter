@@ -21,11 +21,6 @@ final class FeedImageDataLoaderCacheDecorator: FeedImageDataLoader {
     }
 }
 
-protocol FeedImageDataCache {
-    typealias Result = Swift.Result<Data, Error>
-    func save(_ data: Data, for url: URL, completion: @escaping (Result) -> Void)
-}
-
 class FeedImageDataLoaderCacheDecoratorTests: XCTestCase, FeedImageLoaderTestCase {
     
     func test_init_doesNotLoadImageData() {
